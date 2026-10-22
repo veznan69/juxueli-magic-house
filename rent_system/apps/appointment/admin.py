@@ -1,4 +1,11 @@
-﻿from django.contrib import admin
+﻿"""Admin：预约看房。"""
+from django.contrib import admin
 
-# 阶段②注册本应用模型至 Admin 后台
+from .models import Appointment
 
+
+@admin.register(Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'tenant', 'house', 'visit_time', 'phone', 'status', 'created_at')
+    list_filter = ('status',)
+    search_fields = ('tenant__username', 'house__title', 'phone')

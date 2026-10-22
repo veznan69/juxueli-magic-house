@@ -1,4 +1,10 @@
-﻿from django.contrib import admin
+﻿"""Admin：公告。"""
+from django.contrib import admin
 
-# 阶段②注册本应用模型至 Admin 后台
+from .models import Notice
 
+
+@admin.register(Notice)
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'publisher', 'created_at')
+    search_fields = ('title', 'content')

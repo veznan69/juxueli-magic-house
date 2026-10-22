@@ -74,7 +74,8 @@
         · 验证：<span class="dbcode">redis-cli ping</span> 返回 <b>PONG</b>；Python 端 <span class="dbcode">redis.Redis().ping()</span> 返回 True，set/get 正常<br>
         · Python 环境：本机预装 **Python 3.11.9**（学校电脑自带，即之前 http.server 能跑的原因），已装 <b>redis-py 8.1.0</b>；Python 3.13.16 安装包已保留在文件夹备用<br>
         · 注意：GitHub 下载曾返回网页而非文件，最终改用 release 直链（<span class="dbcode">raw.githubusercontent.com</span> 会 404，需走 <span class="dbcode">github.com/.../releases/download/</span>）才成功<br>
-        <b style="color:#b91c1c">② 记得安装 Node.js v24.22.0（LTS Krypton）</b>——安装包 node-v24.22.0-x64-installer.msi 已在文件夹，双击安装（默认自动加入 PATH），装完用 node -v、npm -v 验证。<b>技术栈已定：Django + DRF + Vue 3 前后端分离</b>。
+        <b style="color:#b91c1c">② 记得安装 Node.js v24.22.0（LTS Krypton）</b>——安装包 node-v24.22.0-x64-installer.msi 已在文件夹，双击安装（默认自动加入 PATH），装完用 node -v、npm -v 验证。<b>技术栈已定：Django + DRF + Vue 3 前后端分离</b>。<br>
+        <b style="color:#1d4ed8">③ 新增功能已加入规划（2026-10-22）：多城市 + 地图找房</b>——升级为<b>核心模块 ⑪⑫</b>，详见「新增功能详设」一节；需提前申请 <b>高德地图 JS API Key</b>（个人开发者免费，Web 端配额 30 万次/日），house 表补经纬度字段、演示数据灌坐标。
       </div>
     </div>
   </section>
@@ -121,8 +122,9 @@
     <div class="sec-title"><span class="no">3</span>核心业务流程</div>
     <div class="card">
       <div class="flow">
+        <span class="step">选择城市</span><span class="arrow">→</span>
         <span class="step">租客注册登录</span><span class="arrow">→</span>
-        <span class="step">搜索 / 筛选房源</span><span class="arrow">→</span>
+        <span class="step">搜索 / 筛选房源（列表 + 地图）</span><span class="arrow">→</span>
         <span class="step">收藏 &amp; 预约看房</span><span class="arrow">→</span>
         <span class="step">房东确认</span><span class="arrow">→</span>
         <span class="step">签订电子合同</span><span class="arrow">→</span>
@@ -137,11 +139,11 @@
 
   <!-- 三、功能模块 -->
   <section>
-    <div class="sec-title"><span class="no">4</span>十大核心功能模块</div>
+    <div class="sec-title"><span class="no">4</span>十二大核心功能模块</div>
     <div class="grid grid-3">
       <div class="mod"><h4>① 用户模块</h4><p>注册登录（验证码）、登录态保持、个人中心、实名信息、密码找回</p></div>
       <div class="mod"><h4>② 房源管理</h4><p>房源发布（户型 / 面积 / 租金 / 押付 / 配图 / 标签 / 位置）、状态管理（待租 / 已租 / 下架）、后台审核</p></div>
-      <div class="mod"><h4>③ 搜索筛选</h4><p>关键字、区域、价格区间、户型、面积、排序；列表 + 地图双展示</p></div>
+      <div class="mod"><h4>③ 搜索筛选</h4><p>关键字、城市、区域、价格区间、户型、面积、排序；列表 + 地图双展示</p></div>
       <div class="mod"><h4>④ 收藏与预约</h4><p>租客收藏房源、预约看房时间，房东处理预约申请</p></div>
       <div class="mod"><h4>⑤ 合同管理</h4><p>合同录入 / 生成（租期、租金、押金、双方信息）、PDF 导出、到期提醒</p></div>
       <div class="mod"><h4>⑥ 租金账单</h4><p>按月生成账单、缴费状态（待缴 / 已缴 / 逾期）、租金流水统计</p></div>
@@ -149,14 +151,43 @@
       <div class="mod"><h4>⑧ 退租管理</h4><p>退租申请、押金结算、房源自动转为“待租”状态</p></div>
       <div class="mod"><h4>⑨ 公告消息</h4><p>系统公告发布、站内信 / 消息通知</p></div>
       <div class="mod"><h4>⑩ 后台统计</h4><p>房源数、出租率、租金收入、用户量可视化图表（ECharts）</p></div>
+      <div class="mod" style="border-left-color:var(--purple)"><h4>⑪ 多城市</h4><p>顶部城市切换（记住选择）、房源 / 公告 / 统计按城市隔离、管理员维护城市列表</p></div>
+      <div class="mod" style="border-left-color:var(--purple)"><h4>⑫ 地图找房</h4><p>房源地图打点（经纬度）、列表 / 地图双模式、点标记看房源卡片、拖动地图联动筛选</p></div>
       <div class="mod" style="border-left-color:var(--accent)"><h4>权限控制</h4><p>三角色分权：租客端、房东端、管理后台，路由守卫 + 接口鉴权</p></div>
       <div class="mod" style="border-left-color:var(--green)"><h4>日志审计</h4><p>关键操作留痕（登录、签约、缴费），便于论文中“安全性设计”章节展开</p></div>
     </div>
   </section>
 
+  <!-- 新增功能详设 -->
+  <section>
+    <div class="sec-title"><span class="no">5</span>新增功能详设：多城市 × 地图找房</div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h4 style="color:var(--primary-dark);margin-bottom:10px">⑪ 多城市（Multi-City）</h4>
+        <table>
+          <tr><th style="width:110px">交互设计</th><th>说明</th></tr>
+          <tr><td>城市切换</td><td>顶部导航常驻城市选择器（北京 / 上海 / 广州 / 深圳…），选中后写入 localStorage，全站即时生效</td></tr>
+          <tr><td>数据隔离</td><td>房源、公告、统计全部按当前城市过滤；未登录可浏览，切换城市即时刷新列表</td></tr>
+          <tr><td>后台管理</td><td>管理员维护城市列表（启用 / 停用、排序、地图中心点），房东发布房源时必须选城市</td></tr>
+        </table>
+        <div class="tip">技术要点：新增 <span class="dbcode">city</span> 表，<span class="dbcode">house</span> 增加 city 外键；接口层按当前城市过滤（QuerySet 默认 scope）；演示数据灌 2~3 个城市即可体现“多城市”。</div>
+      </div>
+      <div class="card">
+        <h4 style="color:var(--primary-dark);margin-bottom:10px">⑫ 地图找房（Map Search）</h4>
+        <table>
+          <tr><th style="width:110px">数据准备</th><td>house 表增加 <span class="dbcode">latitude / longitude</span> 字段（高德坐标系 GCJ-02）；演示数据灌入真实坐标（高德坐标拾取器可查）</td></tr>
+          <tr><th>地图服务</th><td>高德地图 JS API：个人开发者免费申请，Web 端配额 30 万次 / 日，演示足够</td></tr>
+          <tr><th>页面交互</th><td>房源列表页「列表 / 地图」切换；按当前筛选条件打点；点击 marker 弹房源小卡片（价格 + 户型 + 详情入口）；拖动地图自动加载可视区域房源</td></tr>
+        </table>
+        <div class="tip">注意：高德 Key 需在控制台配<b>安全密钥</b>并绑定域名白名单（本地用 localhost / 127.0.0.1）；若学校网络访问高德异常，准备降级方案（隐藏地图入口，仅列表模式）。</div>
+      </div>
+    </div>
+    <div class="tip">定位说明：此二者为<b>数据与展示增强</b>，不改动核心业务流；论文中可在「需求分析」补用例、「系统设计」补表结构，答辩时作为差异化亮点讲解。</div>
+  </section>
+
   <!-- 四、技术栈 -->
   <section>
-    <div class="sec-title"><span class="no">5</span>技术选型（Python 方向）</div>
+    <div class="sec-title"><span class="no">6</span>技术选型（Python 方向）</div>
     <div class="card">
       <div class="grid grid-2">
         <div>
@@ -175,6 +206,7 @@
           <span class="chip green">Vue 3（前后端分离）✅ 已定（Node.js v24.22.0 安装包已备）</span>
           <span class="chip amber">HTML + Bootstrap + Ajax（一体式）→ 不采用</span>
           <span class="chip purple">ECharts 图表（已定，两方案通用）</span>
+          <span class="chip purple">高德地图 JS API（地图找房，需申请个人开发者 Key）</span>
         </div>
         <div>
           <h4 style="color:var(--primary-dark);margin-bottom:8px">工具 &amp; 部署</h4>
@@ -188,14 +220,15 @@
 
   <!-- 五、数据库 -->
   <section>
-    <div class="sec-title"><span class="no">6</span>数据库核心表（约 11 张）</div>
+    <div class="sec-title"><span class="no">7</span>数据库核心表（约 12 张）</div>
     <div class="card">
       <table>
         <tr><th style="width:200px">表名</th><th>说明</th></tr>
         <tr><td class="dbcode">user</td><td>登录账号表（账号、密码哈希、角色：租客 / 房东操作员 / 管理员），只存“能登录的人”</td></tr>
         <tr><td class="dbcode">lessor</td><td>出租方（房东主体）表：个人还是公司、公司名 / 营业执照、联系人、电话。<b>与 user 解耦</b>——个人房东 1 对 1，公司房东多个操作员共用 1 个 lessor</td></tr>
-        <tr><td class="dbcode">house</td><td>房源表（标题、户型、面积、租金、押付方式、地址、状态，<b>外键关联 lessor</b> 而非登录账号）</td></tr>
+        <tr><td class="dbcode">house</td><td>房源表（标题、户型、面积、租金、押付方式、地址、状态、<b>经度 / 纬度（地图找房）</b>，外键关联 lessor 与 city）</td></tr>
         <tr><td class="dbcode">house_image</td><td>房源图片表（一房多图，外键关联 house）</td></tr>
+        <tr><td class="dbcode">city</td><td>城市表（城市名、拼音、地图中心点经纬度、是否启用）——<b>多城市数据隔离的地基</b>，house 外键关联</td></tr>
         <tr><td class="dbcode">appointment</td><td>预约看房表（租客、房源、时间、状态）</td></tr>
         <tr><td class="dbcode">contract</td><td>租赁合同表（双方、租期、租金、押金、状态、PDF 路径）</td></tr>
         <tr><td class="dbcode">bill</td><td>租金账单表（合同、账期、金额、缴费状态、缴费时间）</td></tr>
@@ -211,7 +244,7 @@
 
   <!-- 六、论文结构 -->
   <section>
-    <div class="sec-title"><span class="no">7</span>论文结构对应</div>
+    <div class="sec-title"><span class="no">8</span>论文结构对应</div>
     <div class="card">
       <ol class="thesis">
         <li><b>绪论</b> —— 背景（租房市场规模大、信息不对称、中介费高）、意义、国内外现状</li>
@@ -227,20 +260,20 @@
 
   <!-- 七、加分项 -->
   <section>
-    <div class="sec-title"><span class="no">8</span>加分项（时间允许可选）</div>
+    <div class="sec-title"><span class="no">9</span>加分项（时间允许可选）</div>
     <div class="card">
       <span class="chip green">模拟支付（支付宝沙箱）</span>
-      <span class="chip purple">房源分布地图（高德 / 百度地图 API）</span>
       <span class="chip">合同 PDF 自动生成（reportlab）</span>
       <span class="chip amber">房源推荐（协同过滤简化版）</span>
       <span class="chip green">Docker 一键部署</span>
       <span class="chip purple">消息到期自动提醒（Celery 定时任务）</span>
     </div>
+    <div class="tip">说明：原「房源分布地图」加分项已升级为<b>核心模块 ⑫ 地图找房</b>，「多城市」同步升级为核心模块 ⑪——均属数据与展示增强，不改动核心业务流。</div>
   </section>
 
   <!-- 八、部署方案 -->
   <section>
-    <div class="sec-title"><span class="no">9</span>部署方案：花生壳内网穿透 + 一键部署</div>
+    <div class="sec-title"><span class="no">10</span>部署方案：花生壳内网穿透 + 一键部署</div>
     <div class="card">
       <h4 style="color:var(--primary-dark);margin-bottom:8px">为什么用「花生壳 + 一键脚本」而不是买云服务器</h4>
       <p style="font-size:14px;color:var(--muted);margin-bottom:14px">对毕设来说，<b>“演示时系统必须稳稳跑起来” 比 “外网随时能访问” 更重要</b>。花生壳（已验证可用）把本地 Django 端口映射成公网地址，电脑开机即可访问，零成本达成“随时可访问”。答辩当天保持电脑不休眠、提前一天测好域名即可。</p>

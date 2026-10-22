@@ -36,6 +36,14 @@ npm install
 |------|------|
 | http://127.0.0.1:5173/ | 前端首页（Vue 开发服务器） |
 | http://127.0.0.1:8000/admin/ | Django Admin 管理后台（账号 `admin` / 密码 `admin123456`） |
+
+**演示账号**（`python manage.py seed_demo` 一键灌入）：
+
+| 角色 | 账号 | 密码 |
+|------|------|------|
+| 管理员 | admin | admin123456 |
+| 房东 | landlord | landlord123 |
+| 租客 | tenant1 / tenant2 | tenant123 |
 | http://127.0.0.1:8000/api/health/ | 后端健康检查接口 |
 
 ---
@@ -103,9 +111,50 @@ npm run build      # 产出 dist（演示部署用）
 
 ---
 
+## 六、同步到 GitHub（本机专用备忘）
+
+- 仓库：https://github.com/veznan69/juxueli-magic-house （公开，描述：橘雪梨的神秘妙妙屋）
+- git 使用绿色版：`../portable-git/cmd/git.exe`（未安装全局 git）
+- 学校网络会拦截 schannel 证书吊销检查，推送需临时关闭 SSL 校验：
+
+```bash
+# 1. 每次推送前，把远程地址临时带上 PAT（PAT 在 github.com/settings/tokens 生成，勾选 repo）
+git remote set-url origin https://<你的PAT>@github.com/veznan69/juxueli-magic-house.git
+# 2. 推送
+git -c http.sslVerify=false push -u origin main
+# 3. 推完立刻清掉 token
+git remote set-url origin https://github.com/veznan69/juxueli-magic-house.git
+```
+
+- `.gitignore` 已排除：venv、node_modules、db.sqlite3、redis/ 二进制、*.msi/*.zip/*.exe 安装包、IDE 数据文件
+
+---
+
 ## 六、开发路线图
 
 - [x] **① 项目骨架**：Django + DRF + Vue 3 一键启动
-- [ ] ② 数据库模型与 Admin（user / lessor / house 等 11 张表）
-- [ ] ③ 核心业务 API 与页面：房源、预约、合同、账单、报修、收藏
-- [ ] ④ 加分项：Redis 缓存、ECharts 统计、合同 PDF、花生壳外网演示
+- [x] **② 数据库模型与 Admin**：9 张业务表 + 自定义 User（role 字段），house 外键关联 lessor（出租方与登录账号解耦）
+- [x] **③ 全角色 API 与页面**：18 个页面（租客端/房东端/管理后台）+ `/api/v1/` 全套接口 + seed_demo 演示数据
+- [x] 管理后台 ECharts 统计看板（房源状态饼图、租金收入柱状图）
+- [ ] ④ 加分项：Redis 缓存接入、合同 PDF、花生壳外网演示
+
+## 七、API 一览（/api/v1/）
+
+| 模块 | 端点 |
+|------|------|
+| 认证 | `POST auth/register/` `POST auth/login/` `GET/PATCH auth/me/`（Token 认证） |
+| 房源 | `GET/POST houses/` `GET houses/{id}/` `GET houses/mine/` `POST houses/{id}/set-status/` `POST houses/{id}/review/`（管理员）；筛选参数：keyword/district/rooms/rent_min/rent_max/ordering |
+| 预约 | `GET/POST appointments/`（租客）`GET landlord/appointments/` + `POST {id}/handle/`（房东） |
+| 合同 | `GET contracts/`（按角色自动过滤） |
+| 账单 | `GET bills/?status=` `POST bills/{id}/pay/` |
+| 报修 | `GET/POST repairs/`（租客）`GET landlord/repairs/` + `POST {id}/handle/`（房东） |
+| 收藏 | `GET favorites/` `POST favorites/toggle/` |
+| 公告 | `GET notices/`（公开）`POST/DELETE`（管理员） |
+| 管理 | `GET admin-users/` + `POST {id}/set-active/ set-role/`；`GET admin-houses/`；`GET stats/` |
+
+## 八、页面清单（frontend/src/views/）
+
+- **公共**：首页房源列表（搜索/筛选/排序/收藏）、房源详情（预约看房）、登录、注册、公告列表
+- **租客端**：个人中心、我的收藏、我的预约、我的合同、我的账单（在线缴费）、我的报修
+- **房东端**：房源管理（发布/编辑/上下架）、预约处理、报修处理
+- **管理后台**：数据看板（ECharts）、房源审核、用户管理、公告管理

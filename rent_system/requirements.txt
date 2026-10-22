@@ -8,6 +8,9 @@ Django>=5.1,<5.3
 djangorestframework>=3.15
 django-cors-headers>=4.3
 
+# 房源图片上传（ImageField 需要）
+Pillow>=10.0
+
 # 可选：Redis 客户端（缓存 / 登录态，接入 settings 中 CACHES 时启用）
 redis>=5.0
 

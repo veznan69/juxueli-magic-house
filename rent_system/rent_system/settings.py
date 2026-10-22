@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 第三方
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     # 本项目应用（按定稿 11 张核心表规划，骨架期仅占位，阶段②填充模型）
     'apps.users.apps.UsersConfig',
@@ -76,6 +77,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rent_system.wsgi.application'
 ASGI_APPLICATION = 'rent_system.asgi.application'
+
+# 自定义用户模型：AbstractUser + role 字段（tenant/landlord/admin）
+AUTH_USER_MODEL = 'users.User'
 
 # ============================================
 # 数据库：开发期 SQLite（零配置，文件位于项目根目录）
@@ -140,6 +144,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,

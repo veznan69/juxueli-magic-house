@@ -1,4 +1,10 @@
-﻿from django.contrib import admin
+﻿"""Admin：收藏。"""
+from django.contrib import admin
 
-# 阶段②注册本应用模型至 Admin 后台
+from .models import Favorite
 
+
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'house', 'created_at')
+    search_fields = ('user__username', 'house__title')

@@ -1,7 +1,14 @@
-/* 全局基础样式：骨架期从简，后续引入 Bootstrap 风格组件库 */
+/* ===== 全局样式：蓝白视觉语言 + Element Plus 主题定制 ===== */
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
+  /* 覆盖 Element Plus 主色为规划主题蓝 #2563eb */
+  --el-color-primary: #2563eb;
+  --el-color-primary-light-3: #5a8cf0;
+  --el-color-primary-light-5: #8fb1f5;
+  --el-color-primary-light-7: #c3d6fa;
+  --el-color-primary-light-8: #dbe6fc;
+  --el-color-primary-light-9: #ecf1fe;
+  --el-color-primary-dark-2: #1e40af;
+
   --bg: #f1f5f9;
   --text: #1e293b;
   --muted: #64748b;
@@ -23,6 +30,44 @@ body {
 
 #app {
   min-height: 100vh;
+}
+
+.page-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.card-plain {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 26px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 14px;
+}
+
+/* 房源封面渐变占位（无图时按 id 取色） */
+.cover-fallback {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+/* 卡片 hover 微动效 */
+.hover-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.14);
 }
