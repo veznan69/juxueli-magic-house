@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基于Python的房屋租赁管理系统 — 毕设总体规划</title>
+<style>
+  :root{
+    --primary:#2563eb; --primary-dark:#1e40af; --primary-light:#dbeafe;
+    --accent:#f59e0b; --bg:#f1f5f9; --card:#ffffff;
+    --text:#1e293b; --muted:#64748b; --border:#e2e8f0;
+    --green:#10b981; --purple:#8b5cf6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Microsoft YaHei","PingFang SC","Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .hero{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 55%,#3b82f6 100%);color:#fff;padding:64px 24px 72px;text-align:center;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;left:-80px;bottom:-120px;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.06)}
+  .hero::before{content:"";position:absolute;right:-60px;top:-90px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08)}
+  .hero .tag{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);padding:4px 16px;border-radius:999px;font-size:13px;letter-spacing:2px;margin-bottom:18px}
+  .hero h1{font-size:36px;font-weight:700;letter-spacing:1px;margin-bottom:14px}
+  .hero p{font-size:16px;opacity:.92;max-width:760px;margin:0 auto}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px}
+  section{margin-bottom:44px}
+  .sec-title{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:700;margin-bottom:20px;color:var(--primary-dark)}
+  .sec-title .no{width:36px;height:36px;border-radius:10px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th{background:var(--primary-light);color:var(--primary-dark);text-align:left;padding:10px 14px;font-weight:600}
+  td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .grid{display:grid;gap:16px}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:860px){.grid-2,.grid-3{grid-template-columns:1fr}.hero h1{font-size:26px}}
+  .mod{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:12px;padding:16px 18px}
+  .mod h4{font-size:15.5px;color:var(--primary-dark);margin-bottom:6px}
+  .mod p{font-size:13.5px;color:var(--muted)}
+  .chip{display:inline-block;background:var(--primary-light);color:var(--primary-dark);font-size:13px;padding:5px 14px;border-radius:999px;margin:4px 6px 4px 0;font-weight:500}
+  .chip.green{background:#d1fae5;color:#065f46}
+  .chip.purple{background:#ede9fe;color:#5b21b6}
+  .chip.amber{background:#fef3c7;color:#92400e}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px;margin-top:6px}
+  .flow .step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-weight:500}
+  .flow .arrow{color:var(--primary);font-weight:700}
+  ol.thesis{padding-left:22px;font-size:15px}
+  ol.thesis li{margin-bottom:10px}
+  ol.thesis b{color:var(--primary-dark)}
+  .tip{background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-radius:12px;padding:16px 20px;font-size:14px;color:#92400e;margin-top:16px}
+  .dbcode{font-family:Consolas,monospace;background:#f8fafc;border:1px solid var(--border);border-radius:6px;padding:1px 8px;font-size:13px;color:var(--purple)}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:24px 0 8px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="tag">本科毕业设计</div>
+  <h1>基于 Python 的房屋租赁管理系统</h1>
+  <p>一套 B/S 架构的房屋租赁信息管理系统 —— 把“看房 · 签约 · 交租 · 报修 · 退租”全流程搬到线上，让房东与租客通过 Web 平台高效完成租赁业务。</p>
+</div>
+
+<div class="wrap">
+
+  <!-- 待办提醒 -->
+  <section>
+    <div style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1px solid #fca5a5;border-left:5px solid #ef4444;border-radius:12px;padding:18px 22px">
+      <div style="display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;color:#b91c1c;margin-bottom:8px">
+        <span style="background:#ef4444;color:#fff;border-radius:6px;padding:2px 10px;font-size:13px;letter-spacing:2px">TODO</span>
+        待办提醒
+      </div>
+      <div style="font-size:14.5px;color:#7f1d1d;line-height:1.9">
+        <b style="color:#065f46">✅ ① Redis（Windows 便携版）安装测试已完成</b>——结果：<b style="color:#065f46">Redis 8.10.2 已部署并启动成功</b>。<br>
+        · 路径：<span class="dbcode">bishe\redis\Redis-8.10.2-Windows-x64-msys2\redis-server.exe</span>（msys2 便携版，免安装，无需管理员）<br>
+        · 启动方式：<span class="dbcode">Start-Process .\redis-server.exe --port 6379</span>（<b style="color:#b91c1c">务必后台分离启动</b>，千万不要前台直接双击/运行 exe——它是常驻进程、不会退出，前台跑会一直阻塞命令、看着像“卡死”）<br>
+        · 验证：<span class="dbcode">redis-cli ping</span> 返回 <b>PONG</b>；Python 端 <span class="dbcode">redis.Redis().ping()</span> 返回 True，set/get 正常<br>
+        · Python 环境：本机预装 **Python 3.11.9**（学校电脑自带，即之前 http.server 能跑的原因），已装 <b>redis-py 8.1.0</b>；Python 3.13.16 安装包已保留在文件夹备用<br>
+        · 注意：GitHub 下载曾返回网页而非文件，最终改用 release 直链（<span class="dbcode">raw.githubusercontent.com</span> 会 404，需走 <span class="dbcode">github.com/.../releases/download/</span>）才成功<br>
+        <b style="color:#b91c1c">② 记得安装 Node.js v24.22.0（LTS Krypton）</b>——安装包 node-v24.22.0-x64-installer.msi 已在文件夹，双击安装（默认自动加入 PATH），装完用 node -v、npm -v 验证。<b>技术栈已定：Django + DRF + Vue 3 前后端分离</b>。
+      </div>
+    </div>
+  </section>
+
+  <!-- 0、架构与 Python 认知 -->
+  <section>
+    <div class="sec-title"><span class="no">1</span>基础认知：什么是 B/S？Python 在哪？</div>
+    <div class="card">
+      <h4 style="color:var(--primary-dark);margin-bottom:6px">B/S = Browser / Server（浏览器 / 服务器架构）</h4>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:14px">用户不用安装任何软件，用浏览器访问网址即可使用系统；所有业务逻辑和数据处理都放在服务器端。对比 C/S（如微信 PC 版、游戏）需要安装客户端，B/S 维护成本低、跨平台好、改了服务器所有人即时生效。</p>
+      <div class="flow" style="margin-bottom:16px">
+        <span class="step">浏览器(B)<br>HTML / CSS / JS<br>决定页面长啥样、按钮怎么点</span>
+        <span class="arrow">⇄ HTTP ⇄</span>
+        <span class="step">服务器(S)<br>Python + MySQL<br>查库、算账、鉴权、生成合同</span>
+      </div>
+      <h4 style="color:var(--primary-dark);margin-bottom:6px">Python 在这个 B/S 系统里管的是 S 端</h4>
+      <table>
+        <tr><th style="width:200px">环节</th><th>Python（Django）在做什么</th></tr>
+        <tr><td>接收请求</td><td>接收浏览器 URL 请求，路由到对应函数</td></tr>
+        <tr><td>业务逻辑</td><td>判断“用户是不是房东”“押金怎么算”“合同到期没”</td></tr>
+        <tr><td>操作数据库</td><td>用 ORM 把房源 / 合同 / 账单存入或查出 MySQL</td></tr>
+        <tr><td>返回页面</td><td>把数据填进模板，生成 HTML 发回浏览器</td></tr>
+      </table>
+      <div class="tip">一句话：<b>B/S 说的是系统“长啥样、怎么用”（架构）；Python 说的是服务器那一头“用什么语言写”（实现）。</b>你的题目“基于 Python”＝这个 B/S 系统的服务器端用 Python 实现。就像同一辆汽车，发动机（S 端）你选了 Python 这台。</div>
+    </div>
+  </section>
+
+  <!-- 一、系统定位 -->
+  <section>
+    <div class="sec-title"><span class="no">2</span>系统定位与使用人群</div>
+    <div class="card">
+      <table>
+        <tr><th style="width:180px">角色</th><th>职责</th></tr>
+        <tr><td><b>租客（普通用户）</b></td><td>注册登录、搜索筛选房源、收藏、预约看房、在线签约、交租、申请报修、退租申请</td></tr>
+        <tr><td><b>房东（出租方 / 商家角色）</b></td><td>发布 / 编辑 / 下架房源、审核租客申请、生成合同、收租、处理报修、确认退租。<b>注意：房东是“一类出租主体”，不一定是某个人</b>——可能是个人、二房东，也可能是托管公司 / 中介</td></tr>
+        <tr><td><b>管理员</b></td><td>用户管理、房源审核、合同备案、数据统计、公告管理</td></tr>
+      </table>
+      <div class="tip">小规模毕设可简化为两个角色（管理员 + 租客，房东信息作为房源属性）；但<b>三角色版本更完整</b>，答辩时更有内容可讲。</div>
+    </div>
+  </section>
+
+  <!-- 二、核心业务流 -->
+  <section>
+    <div class="sec-title"><span class="no">3</span>核心业务流程</div>
+    <div class="card">
+      <div class="flow">
+        <span class="step">租客注册登录</span><span class="arrow">→</span>
+        <span class="step">搜索 / 筛选房源</span><span class="arrow">→</span>
+        <span class="step">收藏 &amp; 预约看房</span><span class="arrow">→</span>
+        <span class="step">房东确认</span><span class="arrow">→</span>
+        <span class="step">签订电子合同</span><span class="arrow">→</span>
+        <span class="step">按月生成账单</span><span class="arrow">→</span>
+        <span class="step">在线交租</span><span class="arrow">→</span>
+        <span class="step">报修服务</span><span class="arrow">→</span>
+        <span class="step">退租 &amp; 押金结算</span><span class="arrow">→</span>
+        <span class="step">房源重新上架</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 三、功能模块 -->
+  <section>
+    <div class="sec-title"><span class="no">4</span>十大核心功能模块</div>
+    <div class="grid grid-3">
+      <div class="mod"><h4>① 用户模块</h4><p>注册登录（验证码）、登录态保持、个人中心、实名信息、密码找回</p></div>
+      <div class="mod"><h4>② 房源管理</h4><p>房源发布（户型 / 面积 / 租金 / 押付 / 配图 / 标签 / 位置）、状态管理（待租 / 已租 / 下架）、后台审核</p></div>
+      <div class="mod"><h4>③ 搜索筛选</h4><p>关键字、区域、价格区间、户型、面积、排序；列表 + 地图双展示</p></div>
+      <div class="mod"><h4>④ 收藏与预约</h4><p>租客收藏房源、预约看房时间，房东处理预约申请</p></div>
+      <div class="mod"><h4>⑤ 合同管理</h4><p>合同录入 / 生成（租期、租金、押金、双方信息）、PDF 导出、到期提醒</p></div>
+      <div class="mod"><h4>⑥ 租金账单</h4><p>按月生成账单、缴费状态（待缴 / 已缴 / 逾期）、租金流水统计</p></div>
+      <div class="mod"><h4>⑦ 报修管理</h4><p>租客提交报修单（类型 / 描述 / 图片），房东处理并反馈进度</p></div>
+      <div class="mod"><h4>⑧ 退租管理</h4><p>退租申请、押金结算、房源自动转为“待租”状态</p></div>
+      <div class="mod"><h4>⑨ 公告消息</h4><p>系统公告发布、站内信 / 消息通知</p></div>
+      <div class="mod"><h4>⑩ 后台统计</h4><p>房源数、出租率、租金收入、用户量可视化图表（ECharts）</p></div>
+      <div class="mod" style="border-left-color:var(--accent)"><h4>权限控制</h4><p>三角色分权：租客端、房东端、管理后台，路由守卫 + 接口鉴权</p></div>
+      <div class="mod" style="border-left-color:var(--green)"><h4>日志审计</h4><p>关键操作留痕（登录、签约、缴费），便于论文中“安全性设计”章节展开</p></div>
+    </div>
+  </section>
+
+  <!-- 四、技术栈 -->
+  <section>
+    <div class="sec-title"><span class="no">5</span>技术选型（Python 方向）</div>
+    <div class="card">
+      <div class="grid grid-2">
+        <div>
+          <h4 style="color:var(--primary-dark);margin-bottom:8px">后端</h4>
+          <span class="chip green">Django（已定：自带 ORM + Admin + 认证）</span>
+          <span class="chip amber">Flask + SQLAlchemy（不采用）</span>
+          <span class="chip green">Django REST Framework（已定：配合 Vue 前后端分离）</span>
+        </div>
+        <div>
+          <h4 style="color:var(--primary-dark);margin-bottom:8px">数据库</h4>
+          <span class="chip">MySQL 8（毕设标配，ER 图好画）</span>
+          <span class="chip green">Redis 8.10.2（缓存 / 登录态）✅ 已安装并测试通过</span>
+        </div>
+        <div>
+          <h4 style="color:var(--primary-dark);margin-bottom:8px">前端</h4>
+          <span class="chip green">Vue 3（前后端分离）✅ 已定（Node.js v24.22.0 安装包已备）</span>
+          <span class="chip amber">HTML + Bootstrap + Ajax（一体式）→ 不采用</span>
+          <span class="chip purple">ECharts 图表（已定，两方案通用）</span>
+        </div>
+        <div>
+          <h4 style="color:var(--primary-dark);margin-bottom:8px">工具 &amp; 部署</h4>
+          <span class="chip">PyCharm / Navicat</span>
+          <span class="chip amber">本地存储图片（七牛云不采用）</span>
+          <span class="chip green">部署：本地 + 花生壳（已定方案）</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 五、数据库 -->
+  <section>
+    <div class="sec-title"><span class="no">6</span>数据库核心表（约 11 张）</div>
+    <div class="card">
+      <table>
+        <tr><th style="width:200px">表名</th><th>说明</th></tr>
+        <tr><td class="dbcode">user</td><td>登录账号表（账号、密码哈希、角色：租客 / 房东操作员 / 管理员），只存“能登录的人”</td></tr>
+        <tr><td class="dbcode">lessor</td><td>出租方（房东主体）表：个人还是公司、公司名 / 营业执照、联系人、电话。<b>与 user 解耦</b>——个人房东 1 对 1，公司房东多个操作员共用 1 个 lessor</td></tr>
+        <tr><td class="dbcode">house</td><td>房源表（标题、户型、面积、租金、押付方式、地址、状态，<b>外键关联 lessor</b> 而非登录账号）</td></tr>
+        <tr><td class="dbcode">house_image</td><td>房源图片表（一房多图，外键关联 house）</td></tr>
+        <tr><td class="dbcode">appointment</td><td>预约看房表（租客、房源、时间、状态）</td></tr>
+        <tr><td class="dbcode">contract</td><td>租赁合同表（双方、租期、租金、押金、状态、PDF 路径）</td></tr>
+        <tr><td class="dbcode">bill</td><td>租金账单表（合同、账期、金额、缴费状态、缴费时间）</td></tr>
+        <tr><td class="dbcode">repair</td><td>报修表（租客、房源、类型、描述、图片、处理进度）</td></tr>
+        <tr><td class="dbcode">favorite</td><td>收藏表（租客与房源多对多）</td></tr>
+        <tr><td class="dbcode">notice</td><td>公告表（标题、内容、发布时间、发布人）</td></tr>
+        <tr><td class="dbcode">operation_log</td><td>操作日志表（用户、动作、IP、时间）</td></tr>
+      </table>
+      <div class="tip">ER 图 + 完整表结构设计本身就是论文中的<b>独立大章节</b>，务必认真画。</div>
+      <div class="tip">设计亮点：<b>出租方（lessor）与登录账号（user）解耦</b>。房东不是“某个人”，而是“一类出租主体”——可能是个人、二房东，也可能是托管公司 / 中介。公司房东可让多名员工账号共用一个 lessor，个人房东则 1 对 1，逻辑统一，这也是论文里能体现设计深度的点。</div>
+    </div>
+  </section>
+
+  <!-- 六、论文结构 -->
+  <section>
+    <div class="sec-title"><span class="no">7</span>论文结构对应</div>
+    <div class="card">
+      <ol class="thesis">
+        <li><b>绪论</b> —— 背景（租房市场规模大、信息不对称、中介费高）、意义、国内外现状</li>
+        <li><b>相关技术介绍</b> —— Python / Django / MySQL / Vue 等技术选型论证</li>
+        <li><b>需求分析</b> —— 用例图（三角色）、功能性与非功能性需求</li>
+        <li><b>系统设计</b> —— 架构图、模块图、ER 图、数据表结构、接口设计</li>
+        <li><b>系统实现</b> —— 关键代码片段 + 系统运行截图</li>
+        <li><b>系统测试</b> —— 功能测试用例表、测试结果分析</li>
+        <li><b>总结与展望</b> —— 不足与改进方向</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 七、加分项 -->
+  <section>
+    <div class="sec-title"><span class="no">8</span>加分项（时间允许可选）</div>
+    <div class="card">
+      <span class="chip green">模拟支付（支付宝沙箱）</span>
+      <span class="chip purple">房源分布地图（高德 / 百度地图 API）</span>
+      <span class="chip">合同 PDF 自动生成（reportlab）</span>
+      <span class="chip amber">房源推荐（协同过滤简化版）</span>
+      <span class="chip green">Docker 一键部署</span>
+      <span class="chip purple">消息到期自动提醒（Celery 定时任务）</span>
+    </div>
+  </section>
+
+  <!-- 八、部署方案 -->
+  <section>
+    <div class="sec-title"><span class="no">9</span>部署方案：花生壳内网穿透 + 一键部署</div>
+    <div class="card">
+      <h4 style="color:var(--primary-dark);margin-bottom:8px">为什么用「花生壳 + 一键脚本」而不是买云服务器</h4>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:14px">对毕设来说，<b>“演示时系统必须稳稳跑起来” 比 “外网随时能访问” 更重要</b>。花生壳（已验证可用）把本地 Django 端口映射成公网地址，电脑开机即可访问，零成本达成“随时可访问”。答辩当天保持电脑不休眠、提前一天测好域名即可。</p>
+      <div class="tip" style="margin-bottom:18px">花生壳两个坑：<b>① 演示电脑别休眠</b>（电源设“从不睡眠”）；<b>② 免费版域名需提前测试</b>，别现场才连。</div>
+
+      <h4 style="color:var(--primary-dark);margin-bottom:8px">一键部署脚本（毕设命门）</h4>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:10px">把启动流程收敛成一个动作，避免“在我电脑上好好的，现场跑不起来”：</p>
+      <table>
+        <tr><th style="width:200px">双击 start.bat 自动完成</th><th>说明</th></tr>
+        <tr><td>创建虚拟环境</td><td>检查 / 创建 Python venv，隔离依赖</td></tr>
+        <tr><td>安装依赖</td><td><span class="dbcode">pip install -r requirements.txt</span>（已装则跳过）</td></tr>
+        <tr><td>数据库迁移</td><td><span class="dbcode">python manage.py migrate</span></td></tr>
+        <tr><td>灌入演示数据</td><td>自动生成几个房源、测试账号，无需手动造数据</td></tr>
+        <tr><td>启动服务</td><td><span class="dbcode">runserver 0.0.0.0:8000</span>，浏览器自动打开首页</td></tr>
+      </table>
+      <p style="font-size:14px;color:var(--muted);margin:14px 0 0">花生壳映射到 8000 端口，效果即：<b>换一台电脑 → 双击一个文件 → 系统 + 演示数据全部就绪</b>。该脚本在论文里可写成“一键部署脚本设计”章节素材。</p>
+
+      <h4 style="color:var(--primary-dark);margin:18px 0 8px">名词补充：Nginx + uWSGI（论文可用，本方案不采用）</h4>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:10px">这是 Python 网站<b>正式上线</b>的经典组合，因为 Django 自带的 <span class="dbcode">runserver</span> 只能用于开发（单线程、不安全、性能差）。生产环境请求链路：</p>
+      <div class="flow" style="margin-bottom:12px">
+        <span class="step">浏览器</span><span class="arrow">→</span>
+        <span class="step">Nginx<br>门卫：吐静态文件、HTTPS、转发</span><span class="arrow">→</span>
+        <span class="step">uWSGI<br>管理多个 Django 进程扛并发</span><span class="arrow">→</span>
+        <span class="step">Django 应用</span><span class="arrow">→</span>
+        <span class="step">MySQL</span>
+      </div>
+      <p style="font-size:14px;color:var(--muted)">分工逻辑：<b>Nginx 擅长“接待分发”，uWSGI 擅长“跑 Python”</b>（也可用 Gunicorn 替代 uWSGI）。本毕设访问量极小（演示性质），<span class="dbcode">runserver</span> 直接扛得住，<b>无需 Nginx + uWSGI</b>；但它值得写进论文“系统部署”章节，作为对标准上线方案的了解。</p>
+
+      <h4 style="color:var(--primary-dark);margin:18px 0 8px">前后端分离部署说明（已定方案）</h4>
+      <p style="font-size:14px;color:var(--muted)">更工程化可用 <b>Docker Compose 一键部署</b>（<span class="dbcode">docker compose up</span> 一条命令拉起 Django + MySQL），显得更专业；但对当前阶段，<b>bat 一键脚本 + 花生壳</b>是最务实组合。注：若仅本地开发，数据库建议用 <b>SQLite</b>（零配置、免装库配库），论文中注明即可；如需 MySQL 再另行安装。</p>
+    </div>
+  </section>
+
+  <footer>基于 Python 的房屋租赁管理系统 · 毕业设计总体规划</footer>
+</div>
+
+</body>
+</html>

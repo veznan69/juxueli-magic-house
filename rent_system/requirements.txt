@@ -1,0 +1,15 @@
+# ============================================
+# 房屋租赁管理系统 - 后端依赖清单（Python 3.11）
+# 安装：pip install -r requirements.txt
+# ============================================
+
+# 核心框架
+Django>=5.1,<5.3
+djangorestframework>=3.15
+django-cors-headers>=4.3
+
+# 可选：Redis 客户端（缓存 / 登录态，接入 settings 中 CACHES 时启用）
+redis>=5.0
+
+# 部署期 MySQL：切换 settings.py 中数据库配置后取消注释
+# mysqlclient>=2.2

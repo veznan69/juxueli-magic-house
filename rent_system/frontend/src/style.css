@@ -1,0 +1,28 @@
+/* 全局基础样式：骨架期从简，后续引入 Bootstrap 风格组件库 */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --bg: #f1f5f9;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

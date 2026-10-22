@@ -1,0 +1,35 @@
+# ===== 虚拟环境 / 依赖（不入库，按 README 重新生成） =====
+venv/
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+
+# ===== 数据库文件 / 构建产物 =====
+*.sqlite3
+dist/
+.vite/
+
+# ===== 大型二进制与安装包（不入库） =====
+*.zip
+*.msi
+*.exe
+*.7z
+
+# ===== Redis 便携版二进制（本地工具，不入库） =====
+redis/
+
+# ===== 本地便携工具（不入库） =====
+portable-git/
+tools/
+
+# ===== IDE / 系统文件 =====
+.codebuddy/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ===== IDE 对话数据文件（含私人记录，不上传） =====
+Recovered conversation *.json
+基于Python的房屋租赁管理系统设计_*.json
