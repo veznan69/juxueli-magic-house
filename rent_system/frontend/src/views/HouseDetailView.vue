@@ -25,6 +25,10 @@ const statusMap = {
 }
 const statusInfo = computed(() => statusMap[house.value?.status] || { text: house.value?.status, type: 'info' })
 
+function vrDemo() {
+  ElMessage.info('VR 看房功能即将上线，敬请期待')
+}
+
 async function load() {
   try {
     house.value = await houseApi.detail(route.params.id)
@@ -94,6 +98,9 @@ onMounted(() => {
       <div class="detail-card">
         <div class="cover-big cover-fallback" :style="coverStyle(house)">
           <span style="font-size: 22px">{{ house.rooms }} · {{ house.area }}㎡</span>
+          <el-button class="vr-btn" round size="small" @click="vrDemo">
+            <el-icon><VideoCameraFilled /></el-icon>&nbsp;VR 看房
+          </el-button>
         </div>
 
         <div class="info">
@@ -184,6 +191,20 @@ onMounted(() => {
 .cover-big {
   height: 300px;
   border-radius: 10px;
+  position: relative;
+}
+.vr-btn {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  color: #1e40af;
+  backdrop-filter: blur(4px);
+}
+.vr-btn:hover {
+  background: #fff;
+  color: #2563eb;
 }
 .head {
   display: flex;

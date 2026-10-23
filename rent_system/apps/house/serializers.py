@@ -10,30 +10,30 @@ class HouseListSerializer(serializers.ModelSerializer):
     """列表卡片：含出租方名称与封面图。"""
     landlord_name = serializers.CharField(source='landlord.name', read_only=True)
     cover = serializers.SerializerMethodField()
+    facilities = serializers.SerializerMethodField()
 
     class Meta:
         model = House
         fields = ('id', 'title', 'district', 'address', 'rooms', 'area', 'rent',
                   'deposit', 'payment', 'status', 'view_count', 'landlord_name',
-                  'cover', 'created_at')
+                  'cover', 'created_at', 'facilities')
 
     def get_cover(self, obj):
         return obj.cover_image
 
+    def get_facilities(self, obj):
+        return [f.strip() for f in (obj.facilities or '').split(',') if f.strip()]
+
 
 class HouseDetailSerializer(HouseListSerializer):
-    """详情：附出租方联系信息与描述。"""
+    """详情：附出租方联系信息与描述（facilities 继承列表序列化器）。"""
     landlord_contact = serializers.CharField(source='landlord.contact_person',
                                              read_only=True)
     landlord_phone = serializers.CharField(source='landlord.phone', read_only=True)
-    facilities = serializers.SerializerMethodField()
 
     class Meta(HouseListSerializer.Meta):
         fields = HouseListSerializer.Meta.fields + (
-            'landlord_contact', 'landlord_phone', 'description', 'facilities')
-
-    def get_facilities(self, obj):
-        return [f.strip() for f in obj.facilities.split(',') if f.strip()]
+            'landlord_contact', 'landlord_phone', 'description')
 
 
 class HouseWriteSerializer(serializers.ModelSerializer):

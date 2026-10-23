@@ -6,6 +6,10 @@ import { useAuth } from '../store/auth'
 const router = useRouter()
 const { isLoggedIn, role, displayName, logout } = useAuth()
 
+function citySoon() {
+  ElMessage.info('多城市功能即将上线，敬请期待')
+}
+
 function onUserCommand(command) {
   if (command === 'logout') {
     logout()
@@ -24,6 +28,10 @@ function onUserCommand(command) {
         <el-icon :size="22"><OfficeBuilding /></el-icon>
         <span>房屋租赁管理系统</span>
       </router-link>
+      <span class="city-chip" @click="citySoon">
+        北京
+        <el-icon :size="12"><ArrowDown /></el-icon>
+      </span>
 
       <nav class="links">
         <router-link to="/">首页找房</router-link>
@@ -85,6 +93,23 @@ function onUserCommand(command) {
   font-size: 18px;
   font-weight: 700;
   text-decoration: none;
+}
+.city-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 3px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.city-chip:hover {
+  background: rgba(255, 255, 255, 0.28);
 }
 .links {
   display: flex;
